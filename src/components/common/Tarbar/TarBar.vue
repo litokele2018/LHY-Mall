@@ -15,7 +15,7 @@
     display: flex;
     width: 100%;
     background-color: rgb(239, 237, 239);
-    position: absolute;
+    position: fixed;
     bottom: 0;
     box-shadow: 0 -10px 10px rgb(239, 237, 239);
   }
