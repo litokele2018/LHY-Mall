@@ -34,10 +34,10 @@
   }
   .recommend-item{
     flex: 1;
+    width: 100%;
   }
   .recommend-item img{
-    width: 68px;
-    height: 68px;
+    width: 70%;
     margin-bottom: 10px;
   }
 </style>

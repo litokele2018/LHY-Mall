@@ -1,13 +1,12 @@
 <template>
     <div id="hy-swiper">
       <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
-        <slot></slot>
+        <slot/>
       </div>
-      <slot name="indicator">
-      </slot>
       <div class="indicator">
         <slot name="indicator" v-if="showIndicator && slideCount>1">
-          <div v-for="(item, index) in slideCount" class="indi-item" :class="{active: index === currentIndex-1}" :key="index"></div>
+            <!--默认值-->
+          <div v-for="(item, index) in slideCount" class="indi-item" :class="{active: index === currentIndex - 1}" :key="index"></div>
         </slot>
       </div>
     </div>
@@ -50,7 +49,7 @@
 
         // 2.开启定时器
         this.startTimer();
-      }, 100)
+      }, 1000)
     },
     methods: {
 		  /**
@@ -90,7 +89,7 @@
       checkPosition: function () {
         window.setTimeout(() => {
           // 1.校验正确的位置
-          this.swiperStyle.transition = '0ms';
+          this.swiperStyle.transition = '0ms';//意义 为 瞬间完成
           if (this.currentIndex >= this.slideCount + 1) {
             this.currentIndex = 1;
             this.setTransform(-this.currentIndex * this.totalWidth);
@@ -118,8 +117,8 @@
        */
 		  handleDom: function () {
         // 1.获取要操作的元素
-        let swiperEl = document.querySelector('.swiper');
-        let slidesEls = swiperEl.getElementsByClassName('slide');
+        let swiperEl = document.querySelector('.swiper');//整个轮播图
+        let slidesEls = swiperEl.getElementsByClassName('slide');//每个img
 
         // 2.保存个数
         this.slideCount = slidesEls.length;

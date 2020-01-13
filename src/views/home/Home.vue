@@ -3,6 +3,7 @@
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
     <main-swiper :list="list"/>
     <home-recommend-view :recommends="recommend"/>
+    <feature/>
     <div>
       首页
     </div>
@@ -10,17 +11,19 @@
 </template>
 
 <script>
-  import NavBar from "../../components/common/NavBar/NavBar"
   import {getHomeMultidata} from "../../network/home"
+
+  import NavBar from "../../components/common/NavBar/NavBar"
   import MainSwiper from "./childComps/mainSwiper/MainSwiper"
   import HomeRecommendView from "./childComps/homeRecommendView/HomeRecommendView"
-
+  import Feature from "./childComps/feature/Feature";
   export default {
     name: "Home",
     components: {
       NavBar,
       MainSwiper,
-      HomeRecommendView
+      HomeRecommendView,
+      Feature
     },
     data() {
       return {

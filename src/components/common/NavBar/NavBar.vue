@@ -20,10 +20,13 @@
 
 <style scoped>
   .navbar{
+    position: fixed;
+    width: 100%;
     display: flex;
     height: 44px;
     line-height: 44px;
     text-align: center;
+    z-index: 6;
   }
   .left,.right{
     width: 60px;
