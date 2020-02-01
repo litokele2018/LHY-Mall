@@ -1,16 +1,20 @@
 <template>
   <div id="app">
-    <router-view/>
+    <keep-alive exclude="Detail">
+      <router-view/>
+    </keep-alive>
     <main-tar-bar/>
   </div>
 </template>
 
 <script>
-import MainTarBar from "./components/content/mainTarBar/MainTarBar"
+import MainTarBar from "components/content/mainTarBar/MainTarBar"
 
+import store from "./store"
 import router from "./router"
 export default {
   name: 'app',
+  store,
   router,
   components: {
     MainTarBar,

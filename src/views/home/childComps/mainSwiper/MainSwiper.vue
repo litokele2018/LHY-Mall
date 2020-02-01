@@ -3,7 +3,7 @@
     <swiper @transitionEnd="litokele">
       <swiper-item v-for="(item, index) in list" :key="index">
         <a :href="item.link">
-          <img :src="item.image" :alt="index">
+          <img :src="item.image" :alt="index" @load="swiperImgLoad">
         </a>
       </swiper-item>
     </swiper>
@@ -25,13 +25,13 @@
     methods: {
       litokele(data) {
       //  swiper里面图片移动完一次后的回调
+      },
+      swiperImgLoad() {
+        this.$emit('swiperImgLoad')
       }
     }
   }
 </script>
 
 <style scoped>
- #swiper{
-   padding-top: 44px;
- }
 </style>

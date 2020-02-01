@@ -1,12 +1,28 @@
 <template>
   <div>
-    购物车
+    <cart-info />
   </div>
 </template>
 
 <script>
+  import CartInfo from "./childComponents/CartInfo"
+
   export default {
-    name: "cart"
+    name: "cart",
+    components: {
+      CartInfo,
+    },
+    data() {
+      return {
+
+      }
+    },
+    created() {
+
+    },
+    methods: {
+
+    }
   }
 </script>
 

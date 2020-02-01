@@ -20,7 +20,6 @@
 
 <style scoped>
   .navbar{
-    position: fixed;
     width: 100%;
     display: flex;
     height: 44px;

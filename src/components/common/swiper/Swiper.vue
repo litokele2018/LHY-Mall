@@ -1,6 +1,6 @@
 <template>
     <div id="hy-swiper">
-      <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd">
+      <div class="swiper" @touchstart="touchStart" @touchmove="touchMove" @touchend="touchEnd" ref="hyswiper">
         <slot/>
       </div>
       <div class="indicator">
@@ -40,6 +40,10 @@
         swiperStyle: {}, // swiper样式
         currentIndex: 1, // 当前的index
         scrolling: false, // 是否正在滚动
+        startTime: 0,
+        endTime: 0,
+        startPosition: 0,
+        endPosition: 0
       }
     },
     mounted: function () {
@@ -117,7 +121,8 @@
        */
 		  handleDom: function () {
         // 1.获取要操作的元素
-        let swiperEl = document.querySelector('.swiper');//整个轮播图
+        // let swiperEl = document.querySelector('.swiper');//整个轮播图
+        let swiperEl = this.$refs.hyswiper
         let slidesEls = swiperEl.getElementsByClassName('slide');//每个img
 
         // 2.保存个数
@@ -141,9 +146,10 @@
        * 拖动事件的处理
        */
       touchStart: function (e) {
+        // this.startTime = new Date().getTime()
+        this.startPosition = e.touches[0].pageX
         // 1.如果正在滚动, 不可以拖动
         if (this.scrolling) return;
-
         // 2.停止定时器
         this.stopTimer();
 
@@ -157,27 +163,26 @@
         this.distance = this.currentX - this.startX;
         let currentPosition = -this.currentIndex * this.totalWidth;
         let moveDistance = this.distance + currentPosition;
-
         // 2.设置当前的位置
-        this.setTransform(moveDistance);
+        if(Math.abs(this.distance) > 10) this.setTransform(moveDistance)
       },
 
       touchEnd: function (e) {
+        this.endPosition = e.changedTouches[0].pageX
+        // console.log(e)
+        let changedPosition = this.endPosition - this.startPosition
         // 1.获取移动的距离
         let currentMove = Math.abs(this.distance);
-
         // 2.判断最终的距离
-        if (this.distance === 0) {
+        if (currentMove === 0) {
           return
-        } else if (this.distance > 0 && currentMove > this.totalWidth * this.moveRatio) { // 右边移动超过0.5
+        } else if (this.distance > 0 && currentMove > this.totalWidth * this.moveRatio && Math.abs(changedPosition) > 10) { // 右边移动超过0.5
           this.currentIndex--
-        } else if (this.distance < 0 && currentMove > this.totalWidth * this.moveRatio) { // 向左移动超过0.5
+        } else if (this.distance < 0  && currentMove > this.totalWidth * this.moveRatio && Math.abs(changedPosition) > 10) { // 向左移动超过0.5
           this.currentIndex++
         }
-
         // 3.移动到正确的位置
-        this.scrollContent(-this.currentIndex * this.totalWidth);
-
+        if (Math.abs(changedPosition) > 10) this.scrollContent(-this.currentIndex * this.totalWidth);
         // 4.移动完成后重新开启定时器
         this.startTimer();
       },

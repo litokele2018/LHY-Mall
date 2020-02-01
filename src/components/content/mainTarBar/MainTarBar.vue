@@ -1,6 +1,6 @@
 <template>
   <div>
-    <tar-bar>
+    <tar-bar id="tar-bar">
       <tar-bar-item path="/home">
         <img slot="img1" src="~assets/img/tabbar/home.svg" alt="">
         <img slot="img2" src="~assets/img/tabbar/home_active.svg" alt="">
@@ -40,5 +40,4 @@
 </script>
 
 <style scoped>
-
 </style>
