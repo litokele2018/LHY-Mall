@@ -1,6 +1,6 @@
 <template>
   <swiper>
-    <swiper-item v-for="(item, index) in topImage" class="item" :ref="'item' + index">
+    <swiper-item v-for="(item, index) in topImage" class="item" :ref="'item' + index" :key="index">
       <img :src="item" alt="" @click="showBigImg(index)">
     </swiper-item>
   </swiper>
