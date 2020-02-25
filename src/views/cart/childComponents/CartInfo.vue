@@ -11,7 +11,7 @@
         <div>共{{$store.state.cartList.length}}件宝贝</div>
       </div>
       <div class="cart-products" v-if="$store.state.cartList.length !== 0">
-        <div class="products-items" v-for="(item, index) in $store.state.cartList">
+        <div class="products-items" v-for="(item, index) in $store.state.cartList" :key="index">
           <div class="shop-name">
             {{item.shopName}}
           </div>
@@ -30,9 +30,9 @@
               <div>
                 ￥ {{item.price}}
                 <div class="btn-count">
-                  <button>-</button>
+                  <button @click="decrement(index, item)">-</button>
                   {{item.count}}
-                  <button>+</button>
+                  <button @click="increment(index, item)">+</button>
                 </div>
               </div>
             </div>
@@ -53,12 +53,12 @@
     </scroll>
     <div class="cart-bottom-bar">
       <label>
-        <input type="checkbox">
+        <input type="checkbox" @click="allCheck" ref="allCheck">
         <span>全选</span>
       </label>
       <div class="sum-price">
-        <span>合计: ￥ {{sumPrice}}</span>
-        <div class="pay">结算({{payCount}})</div>
+        <span>合计: ￥ {{sumPrice | saveTwoNum}}</span>
+        <div class="pay" @click="toPayMoney">结算({{checkedCount}})</div>
       </div>
     </div>
   </div>
@@ -67,7 +67,7 @@
 <script>
   import Scroll from "../../../components/common/scroll/Scroll"
   import GoodsList from "../../../components/content/goodsList/GoodsList"
-  import {getDetailGoods} from "../../../network/detail"
+  import {getDetailGoods, itemParams} from "../../../network/detail"
   export default {
     name: "CartInfo",
     components: {
@@ -77,7 +77,8 @@
     data() {
       return {
         sumPrice: 0,
-        payCount: 0,
+        allSumPrice: 0,
+        checkedCount: 0,
         goodsList: {
           'pop': {page: 0, list: []},
         },
@@ -92,16 +93,84 @@
     activated() {
       this.$refs.cartscroll && this.$refs.cartscroll.refresh()
     },
+    filters: {
+      saveTwoNum(value) {
+        return value.toFixed(2)
+      }
+    },
+    computed: {
+      watchCount() {
+        return this.$store.state.cartList.map(item => item.count)
+      },
+    },
+    watch: {
+      watchCount(value) {
+        console.log(value)//是一个数组
+        let length = this.$store.state.cartList.length //避免获取不到出现报错
+        if(value) {
+          this.sumPrice = 0
+          for(let i = 0 ; i < length; i ++) {
+            if(this.$refs['litokele' + i] && this.$refs['litokele' + i][0].checked === true) {
+              this.sumPrice += this.$store.state.cartList[i].price * value[i]
+            }
+          }
+        }
+      }
+    },
     methods: {
+      toPayMoney() {
+        if(this.checkedCount === 0) {
+          this.$toast.show('请选择或添加商品')
+        }else {
+          this.$toast.show('正在前往付款的路上')
+        }
+      },
       checkItem(index, value) {
         if(this.$refs['litokele'+index][0].checked === true) {
-          console.log(this.$refs['litokele'+index][0])
-          console.log('add:' + value)
           this.sumPrice += value
         }else {
-          console.log('remove:' + value)
           this.sumPrice -= value
+          if(this.sumPrice < 0) {
+            this.sumPrice = 0
+          }
         }
+        //判断是否全选
+        if(this.$refs['litokele'+ index ][0].checked === true) {
+          this.checkedCount += 1
+          if(this.checkedCount === this.$store.state.cartList.length) {
+            this.$refs.allCheck.checked = true
+          }
+        }else {
+          this.$refs.allCheck.checked = false
+          this.checkedCount -= 1
+        }
+      },
+      allCheck(e) {
+        console.log(e)
+        //点击全选时， 重新计算价格
+        this.allSumPrice = 0
+        this.$store.state.cartList.forEach(item => {
+          this.allSumPrice += item.count * item.price
+        })
+        if(this.sumPrice !== this.allSumPrice && e.target.checked === true) {
+          this.sumPrice = this.allSumPrice
+          this.checkedCount = this.$store.state.cartList.length
+          for(let i = 0; i < this.$store.state.cartList.length; i ++) {
+            this.$refs['litokele' + i][0].checked = true
+          }
+        }else {
+          this.sumPrice = 0
+          this.checkedCount = 0
+          for(let i = 0; i < this.$store.state.cartList.length; i ++) {
+            this.$refs['litokele' + i][0].checked = false
+          }
+        }
+      },
+      decrement(index, item) {
+        this.$store.commit('decCount', index)
+      },
+      increment(index, item) {
+        this.$store.commit('addCount', index)
       },
       scrolling(position) {
         if (position.y > 0) {

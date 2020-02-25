@@ -2,7 +2,8 @@
   <div class="tab-control">
     <div v-for="(item, index) in titles"
          class="tab-control-item"
-         :class="{'active': currentIndex === index}" @click="handleClick(index)">
+         :class="{'active': currentIndex === index}" @click="handleClick(index)"
+         :key="index">
       <span>{{item}}</span>
     </div>
   </div>
@@ -46,6 +47,7 @@
   .tab-control {
     display: flex;
     text-align: center;
+    font-size: 14px;
     height: 44px;
     line-height: 44px;
     z-index: 6;

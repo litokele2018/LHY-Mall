@@ -1,28 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import {mutations} from './mutations'
+import {actions} from './actions'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    cartList: []
+    cartList: [],
+    existIid: [],
   },
-  mutations: {
-    addCartProducts(state, payload) {
-      let beforeLoad = false
-      //map是遍历修改 返回修改后的数组
-      //forEach 仅仅是遍历
-      state.cartList && state.cartList.forEach(item => {
-        if(item.iid === payload.iid) {
-          item.count ++
-          beforeLoad = true
-        }
-      })
-      if(!beforeLoad){
-        state.cartList.push(payload)
-      }
-    }
-  }
+  mutations,
+  actions
 })
 
 export default store

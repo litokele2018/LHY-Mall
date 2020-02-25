@@ -173,6 +173,7 @@
   }
   .home-nav{
     background-color: var(--color-tint);
+    font-size: 18px;
     color: white;
   }
   .tab-control{

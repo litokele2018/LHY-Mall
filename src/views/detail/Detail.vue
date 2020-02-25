@@ -37,7 +37,6 @@
   import GoodsList from "../../components/content/goodsList/GoodsList"
   import DetailBottomBar from "./childComponents/DetailBottomBar"
 
-
   export default {
     name: "Detail",
     components: {
@@ -50,7 +49,7 @@
       DetailParams,
       DetailComment,
       GoodsList,
-      DetailBottomBar
+      DetailBottomBar,
     },
     mixins: [backTopMixin],
     data() {
@@ -70,7 +69,6 @@
         commentsOffsetTop: 0,
         recommendsOffsetTop: 0,
         // offsetTopArray: [],
-        count: 0
       }
     },
     created() {
@@ -92,7 +90,7 @@
     },
     mounted() {
       this.dpImgLoadFunc = debounce(this.$refs.dScroll.refresh, 200)
-      //一开始 然评论的可见度为 0
+      //一开始 评论的可见度为 0
       this.$refs.dComments.$el.style.opacity = 0
     },
     methods: {
@@ -164,6 +162,9 @@
           this.$refs.dNavBar.currentIndex = 0
         }
       },
+      back() {
+        this.$refs.dScroll.scrollTo(0, 0, 200)
+      },
       addToCart() {
         let product = {}
         product.title = this.goods.title
@@ -173,7 +174,11 @@
         product.count = 1
         product.shopName = this.shop.name
         console.log(product)
-        this.$store.commit('addCartProducts', product)
+        this.$store.dispatch('addCartProducts', product)
+            .then(res => {
+              console.log(res)
+              this.$toast.show(res)
+            })
       }
     },
 
