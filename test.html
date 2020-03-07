@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+
+  </div>
+
+  <template id='template'>
+    <div>
+      <h2>litokele</h2>
+      <h1>{{someObject}}</h1>
+    </div>
+  </template>
+
+  <script src="./node_modules/vue/dist/vue.js"></script>
+  <script>
+    // Vue的响应式原理
+      const obj = {
+          message: 1123,
+          name: 'litokele'
+        }
+      // 1.监听数据改变
+      console.log(Object.keys(obj))
+      //遍历obj中的key
+      Object.keys(obj).forEach(key => {
+        // 对象中键值的定义
+        let value = obj[key]
+        Object.defineProperty(obj, key, {
+          set(newValue) {
+            //发生修改
+            //通知 引用处进行刷新
+            value = newValue
+            console.log(key + '发生了修改')
+          },
+          get() {
+            //发生获取
+            return value
+          }
+        })
+      })
+      // 2.订阅者发布者模式
+      class Dep{
+        constructor() {
+          this.subs = []
+        }
+        addSub(person) {
+          this.subs.push(person)
+        }
+        notify() {
+          this.subs.forEach(item => {
+            item.update()
+          })
+        }
+      }
+      class Person{
+        constructor(name) {
+          this.name = name
+        }
+        update() {
+          console.log(this.name + '发生了更新')
+        }
+      }
+
+      let p1 = new Person('张三')
+      let p2 = new Person('李四')
+      let p3 = new Person('王五')
+
+      const dep = new Dep()
+      dep.addSub(p1)
+      dep.addSub(p2)
+      dep.addSub(p3)
+      dep.notify()
+
+      new Vue({
+        el: '#app',
+        template: '#template',
+        data: {
+          message: 1123,
+          name: 'litokele',
+          someObject: {}
+        },
+        mounted() {
+          console.log(this.someObject)
+          //Object.assign 响应式错误 不能直接使用Object.assign 向响应式对象中添加属性
+          Object.assign(this.someObject, {name: 'litokele'}, {age: 20})
+          console.log(this.someObject)
+          // this.someObject = Object.assign({}, this.someObject, {name: 'litokele'})
+        },
+      })
+  </script>
+</body>
+</html>

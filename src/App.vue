@@ -18,7 +18,10 @@ export default {
   router,
   components: {
     MainTarBar,
-  }
+  },
+  beforeMount() {
+    // console.log(this)
+  },
 }
 </script>
 
