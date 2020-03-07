@@ -123,6 +123,10 @@
           this.$toast.show('请选择或添加商品')
         }else {
           this.$toast.show('正在前往付款的路上')
+          setTimeout(() => {
+            console.log(this.$router)
+            this.$router.push('/pay')
+          }, 500)
         }
       },
       checkItem(index, value) {
