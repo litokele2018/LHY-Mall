@@ -7,8 +7,8 @@
      <left-tab-list :titleList='leftTabList'
                     @clickMnue='handleMnueClick'/>
     </scroll>
-    <scroll class='category-scroll-mid'>
-      <mid-content-item :subCategoryList='midItems'/>
+    <scroll class='category-scroll-mid' ref="subCategoryScroll">
+      <mid-content-item :subCategoryList='midItems' @imgLoad='imgLoad'/>
     </scroll>
   </div>
 </template>
@@ -52,6 +52,10 @@
           // console.log(res)
           this.midItems = res.data.data.list
         })
+      },
+      imgLoad() {
+        // console.log(1)
+        this.$refs.subCategoryScroll.refresh()
       }
     },
   }

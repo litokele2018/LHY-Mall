@@ -1,11 +1,9 @@
 <template>
   <div v-if="subCategoryList !== []" class='sub-cateory'>
     <grid-view :cols="3" :lineSpace="15" :verticalMargin="20">
-      <div v-for="(item, index) in subCategoryList" 
-          :key="index"
-          class="grid-view-item">
+      <div v-for="(item, index) in subCategoryList" :key="index" class="grid-view-item">
         <a :href="item.link" class="item">
-          <img :src="item.image" alt="">
+          <img :src="item.image" alt="" @load="handleImgLoad(subCategoryList.length)">
           <div>{{item.title}}</div>
         </a>
       </div>
@@ -28,9 +26,18 @@ export default {
   },
   data() {
     return {
-      
+      count: 0
     }
   },
+  methods: {
+    handleImgLoad(length) {
+      this.count ++ 
+      if (this.count === length) {
+        this.$emit('imgLoad')
+        this.count = 0
+      }
+    }
+  }
 }
 </script>
 

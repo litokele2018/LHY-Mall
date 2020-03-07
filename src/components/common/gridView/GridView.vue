@@ -50,11 +50,11 @@ export default {
       // 这里设置grid 的内边距 就不用设置item的margin了
       grid.style.padding = `${this.verticalMargin}px ${this.horizonMargin}px` // 上下  左右
       let itemWidth = (grid.clientWidth - 2 * this.horizonMargin - (this.cols - 1) * this.itemSpace) / this.cols
-      console.log(itemWidth)
+      // console.log(itemWidth)
       for (let i = 0; i < children.length; i ++) {
         const item = children[i]
         item.style.width = itemWidth + 'px'
-        console.log(item.style.width)
+        // console.log(item.style.width)
         if ((i + 1) % this.cols !== 0) { //排除 一排中的  最后一个 
           item.style.marginRight = this.itemSpace + 'px'
         }
