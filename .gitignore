@@ -2,7 +2,6 @@
 node_modules
 /dist
 api接口
-/src
 
 # local env files
 .env.local
