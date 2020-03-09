@@ -32,13 +32,13 @@ export default {
   create() {
   },
   mounted() {
-    this.autoLayOut()
+    this.autoLayOut() //初始化的界面需要自动布局
   },
   updated() {
     this.$nextTick(function () {
       // Code that will run only after the
       // entire view has been re-rendered
-      this.autoLayOut()
+      this.autoLayOut() //页面更改后也需要自动布局
     })
   },
   methods: {

@@ -219,11 +219,13 @@
     position: fixed;
     bottom: 97px;
     left: 0;
-    right: 0;
+    right: 0;   
     top: 0;
   }
   .pay{
     display: inline-block;
+    position: relative;
+    right: 0;
     height: 40px;
     line-height: 40px;
     width: 80px;
@@ -231,13 +233,20 @@
     background-color: #ff5000;
     color: white;
     border-radius: 10px;
-    margin-top: 5px;
     margin-left: 5px;
+    vertical-align: middle;
   }
   .sum-price{
     position: absolute;
     top: 0;
+    bottom: 0;
     right: 5px;
+  }
+  .sum-price>span{
+    display: inline-block;
+    line-height: 40px;
+    height: 40px;
+    vertical-align: middle;
   }
   .cart-bottom-bar{
     position: fixed;
